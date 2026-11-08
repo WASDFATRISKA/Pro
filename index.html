@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#101114">
+  <meta name="description" content="Body Evolution — персональный трекер формы, тренировок и рекомпозиции.">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles.css">
+  <title>Body Evolution</title>
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <div class="eyebrow">PERSONAL FITNESS TRACKER</div>
+      <h1>BODY <span>EVOLUTION</span></h1>
+    </div>
+    <button id="installBtn" class="ghost small hidden" type="button">Установить</button>
+  </header>
+
+  <main>
+    <section class="hero panel">
+      <div class="hero-copy">
+        <div class="eyebrow">ТВОЯ ЦЕЛЬ</div>
+        <h2>Рекомпозиция<br><span>тела</span></h2>
+        <p>Больше мышц. Сильнее показатели. Контроль формы.</p>
+      </div>
+      <div class="hero-mark">BE</div>
+    </section>
+
+    <section class="stats-grid">
+      <article class="stat panel"><span>Текущий вес</span><strong id="currentWeight">69,8 <small>кг</small></strong><em id="weightDelta">Последняя запись</em></article>
+      <article class="stat panel"><span>Рост</span><strong>183 <small>см</small></strong><em>Профиль</em></article>
+      <article class="stat panel"><span>Жим лёжа</span><strong>70×5</strong><em>кг · повторы</em></article>
+      <article class="stat panel"><span>Жим гантелей</span><strong>22,5×2</strong><em>кг на руку</em></article>
+    </section>
+
+    <nav class="tabs" aria-label="Разделы">
+      <button class="tab active" data-tab="overview">Обзор</button>
+      <button class="tab" data-tab="weight">Вес</button>
+      <button class="tab" data-tab="workouts">Тренировки</button>
+      <button class="tab" data-tab="photos">Фото</button>
+      <button class="tab" data-tab="data">Данные</button>
+    </nav>
+
+    <section id="overview" class="view active">
+      <div class="section-head"><div><div class="eyebrow">OVERVIEW</div><h2>Твой прогресс</h2></div><span class="live-dot">Локально</span></div>
+      <article class="panel chart-panel">
+        <div class="card-head"><div><h3>История веса</h3><p>Контрольные точки из твоей истории</p></div><span class="tag">КГ</span></div>
+        <div id="weightChart" class="chart"></div>
+        <div id="weightHistory" class="history-list"></div>
+      </article>
+      <div class="section-head compact"><div><div class="eyebrow">QUICK ACTIONS</div><h2>Быстрая запись</h2></div></div>
+      <div class="quick-grid">
+        <button class="quick panel" data-goto="weight"><b>＋</b><span>Записать вес</span></button>
+        <button class="quick panel" data-goto="workouts"><b>↗</b><span>Добавить тренировку</span></button>
+        <button class="quick panel" data-goto="photos"><b>▧</b><span>Добавить фото</span></button>
+      </div>
+      <article class="panel note"><b>Фокус недели</b><p>Оценивай рекомпозицию по совокупности веса, замеров, фотографий и силовых показателей — не по одной цифре на весах.</p></article>
+    </section>
+
+    <section id="weight" class="view">
+      <div class="section-head"><div><div class="eyebrow">BODY TRACKING</div><h2>Вес тела</h2></div></div>
+      <form id="weightForm" class="panel form-card">
+        <h3>Новая запись</h3>
+        <label>Вес, кг<input id="weightInput" type="number" min="20" max="300" step="0.1" placeholder="Например, 69.8" required></label>
+        <label>Дата<input id="weightDate" type="date" required></label>
+        <label>Заметка <input id="weightNote" type="text" maxlength="120" placeholder="Утром натощак, после отдыха…"></label>
+        <button class="primary" type="submit">Сохранить вес</button>
+      </form>
+      <article class="panel chart-panel"><div class="card-head"><div><h3>График динамики</h3><p>Все сохранённые измерения</p></div></div><div id="weightChartFull" class="chart"></div></article>
+      <article class="panel"><h3>История измерений</h3><div id="weightList" class="history-list"></div></article>
+    </section>
+
+    <section id="workouts" class="view">
+      <div class="section-head"><div><div class="eyebrow">STRENGTH LOG</div><h2>Тренировки</h2></div></div>
+      <form id="workoutForm" class="panel form-card">
+        <h3>Добавить упражнение</h3>
+        <label>Упражнение<input id="exerciseInput" type="text" placeholder="Жим штанги лёжа" required></label>
+        <div class="form-row">
+          <label>Вес, кг<input id="loadInput" type="number" min="0" step="0.5" placeholder="70" required></label>
+          <label>Повторы<input id="repsInput" type="number" min="1" max="200" step="1" placeholder="5" required></label>
+          <label>Подходы<input id="setsInput" type="number" min="1" max="50" step="1" value="3" required></label>
+        </div>
+        <label>Дата<input id="workoutDate" type="date" required></label>
+        <button class="primary" type="submit">Сохранить упражнение</button>
+      </form>
+      <article class="panel"><h3>История силовых</h3><div id="workoutList" class="history-list"></div></article>
+    </section>
+
+    <section id="photos" class="view">
+      <div class="section-head"><div><div class="eyebrow">VISUAL PROGRESS</div><h2>Фото формы</h2></div></div>
+      <article class="panel form-card">
+        <h3>Добавить фотографию</h3>
+        <p class="muted">Фотографии остаются в хранилище этого браузера на телефоне. Они не отправляются на сервер.</p>
+        <label>Дата съёмки<input id="photoDate" type="date"></label>
+        <label>Фото<input id="photoFile" type="file" accept="image/*" capture="environment"></label>
+        <button id="savePhoto" class="primary" type="button">Сохранить фото</button>
+      </article>
+      <div id="photoGrid" class="photo-grid"></div>
+    </section>
+
+    <section id="data" class="view">
+      <div class="section-head"><div><div class="eyebrow">YOUR DATA</div><h2>Данные и резервная копия</h2></div></div>
+      <article class="panel form-card">
+        <h3>Профиль</h3>
+        <div class="profile-row"><span>Рост</span><b>183 см</b></div>
+        <div class="profile-row"><span>Цель</span><b>Рекомпозиция тела</b></div>
+        <div class="profile-row"><span>Последний известный вес до текущего</span><b>74 кг · август 2026</b></div>
+        <div class="profile-row"><span>Жим лёжа</span><b>70 кг × 5</b></div>
+        <div class="profile-row"><span>Жим гантелей на наклонной</span><b>22,5 кг на руку × 8–10</b></div>
+      </article>
+      <article class="panel form-card">
+        <h3>Резервная копия</h3>
+        <p class="muted">Экспортируй данные регулярно. При очистке данных браузера локальная история может быть удалена. Фото экспортируются отдельно.</p>
+        <button id="exportBtn" class="primary" type="button">Экспортировать JSON</button>
+        <label class="file-label">Импортировать JSON<input id="importFile" type="file" accept="application/json,.json"></label>
+        <button id="resetBtn" class="danger" type="button">Сбросить записи приложения</button>
+      </article>
+      <article class="panel note"><b>Важно о приватности</b><p>Данные хранятся локально в браузере на этом устройстве. Они не синхронизируются автоматически между телефоном и компьютером. Сохраняй резервные копии.</p></article>
+    </section>
+  </main>
+  <footer>BODY EVOLUTION <span>·</span> YOUR JOURNEY, YOUR DATA</footer>
+  <div id="toast" role="status" aria-live="polite"></div>
+  <script src="./app.js"></script>
+</body>
+</html>
